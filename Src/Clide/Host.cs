@@ -27,6 +27,7 @@ namespace Clide
     using Clide.Events;
     using System.Windows.Threading;
     using Clide.Composition;
+    using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
     /// Core host implementation, to be cached while the 
@@ -75,6 +76,14 @@ namespace Clide
                     // This call should always be made from a package Initialize method, 
                     // which is guaranteed to be called from the UI thread.
                     UIThread.Initialize(Dispatcher.CurrentDispatcher);
+
+                    ServiceLocator.Initialize(new Lazy<IServiceLocator>(() =>
+                        new FallbackServiceLocator(
+                            DevEnv.Get(GlobalServiceProvider.Instance).ServiceLocator,
+                            new ExportsServiceLocator(GlobalServiceProvider.Instance.GetService<SComponentModel, IComponentModel>().DefaultExportProvider)));
+
+
+
                     var packageId = hostingPackage.GetPackageGuidOrThrow();
                     var devEnv = DevEnv.Get(hostingPackage);
                     // Brings in imports that the package itself might need.
