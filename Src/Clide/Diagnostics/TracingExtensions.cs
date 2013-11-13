@@ -15,43 +15,46 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 #endregion
 
-namespace Clide
+namespace System.Diagnostics
 {
     using System;
-    using System.Diagnostics;
     using System.Windows;
+    using Clide;
     using Clide.Diagnostics;
-    using Clide.VisualStudio;
-    using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
     /// Provides tracing extensions on top of <see cref="ITracer"/>.
     /// </summary>
     public static class TracingExtensions
     {
-        internal static Action<Exception, string, string[]> ShowExceptionAction = (ex, format, args) =>
+        /// <summary>
+        /// Gets or sets the default behavior for showing exceptions.
+        /// </summary>
+        public static Action<Exception, string, string[]> ShowExceptionAction { get; set; }
+
+        static TracingExtensions()
         {
-            System.Windows.MessageBox.Show(
-                GlobalServiceProvider.Instance.GetService<SVsUIShell, IVsUIShell>().GetMainWindow(), 
-                string.Format(format, args),
-                "Visual Studio", 
-                MessageBoxButton.OK, 
-                MessageBoxImage.Error);
-        };
+            ShowExceptionAction = (exception, format, args) => Debug.WriteLine(format, args);
+
+            //ShowExceptionAction = (exception, format, args) =>
+            //{
+            //    GlobalServiceProvider.Instance.GetService<SVsUIShell, IVsUIShell>().ShowMessageBox(
+            //        string.Format(format, args), 
+            //        icon: MessageBoxImage.Error);
+            //};
+        }
 
         /// <summary>
         /// Executes the given <paramref name="action"/> shielding any non-critical exceptions 
-        /// and logging them to the <paramref name="tracer"/> with the given <paramref name="format"/> message.
+        /// and logging them to the <paramref name="tracer"/> with the given <paramref name="errorMessageFormat"/> message.
         /// </summary>
         [DebuggerStepThrough]
-        public static Exception ShieldUI(this ITracer tracer, Action action, string format, params string[] args)
+        public static Exception ShieldUI(this ITracer tracer, Action action, string errorMessageFormat, params string[] errorArgs)
         {
             Guard.NotNull(() => tracer, tracer);
             Guard.NotNull(() => action, action);
-            Guard.NotNullOrEmpty(() => format, format);
-            Guard.NotNull(() => args, args);
+            Guard.NotNullOrEmpty(() => errorMessageFormat, errorMessageFormat);
+            Guard.NotNull(() => errorArgs, errorArgs);
 
             try
             {
@@ -59,15 +62,15 @@ namespace Clide
             }
             catch (Exception ex)
             {
-                if (ErrorHandler.IsCriticalException(ex))
+                if (ex.IsCriticalException())
                 {
                     throw;
                 }
                 else
                 {
-                    tracer.Error(ex, format, args);
+                    tracer.Error(ex, errorMessageFormat, errorArgs);
 
-                    ShowExceptionAction(ex, format, args);
+                    ShowExceptionAction(ex, errorMessageFormat, errorArgs);
 
                     return ex;
                 }
@@ -86,20 +89,6 @@ namespace Clide
             Guard.NotNullOrEmpty(() => errorMessage, errorMessage);
 
             return ShieldUI(tracer, action, errorMessage, new string[0]);
-        }
-    }
-}
-
-namespace Clide.Diagnostics
-{
-    partial class Tracer
-    {
-        /// <summary>
-        /// Gets the tracer name for the given type.
-        /// </summary>
-        public static string NameFor<T>()
-        {
-            return NameFor(typeof(T));
         }
     }
 }

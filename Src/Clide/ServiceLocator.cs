@@ -17,8 +17,7 @@ namespace Clide
     using System;
     using System.Linq;
     using Microsoft.Practices.ServiceLocation;
-    using Clide.Composition;
-    using Microsoft.VisualStudio.ComponentModelHost;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Locates global services and components inside Visual Studio, in a thread-safe way, 
@@ -32,14 +31,62 @@ namespace Clide
     /// </remarks>
     public static class ServiceLocator
     {
-        private static readonly Lazy<IServiceLocator> globalLocator = new Lazy<IServiceLocator>(() =>
-            new FallbackServiceLocator(
-                DevEnv.Get(GlobalServiceProvider.Instance).ServiceLocator,
-                new ExportsServiceLocator(GlobalServiceProvider.Instance.GetService<SComponentModel, IComponentModel>().DefaultExportProvider)));
+        private static Lazy<IServiceLocator> globalLocator = new Lazy<IServiceLocator>(() => new NullLocator());
+
+        //private static readonly Lazy<IServiceLocator> globalLocator = new Lazy<IServiceLocator>(() =>
+        //    new FallbackServiceLocator(
+        //        DevEnv.Get(GlobalServiceProvider.Instance).ServiceLocator,
+        //        new ExportsServiceLocator(GlobalServiceProvider.Instance.GetService<SComponentModel, IComponentModel>().DefaultExportProvider)));
 
         /// <summary>
         /// Gets the global locator.
         /// </summary>
         public static IServiceLocator GlobalLocator { get { return globalLocator.Value; } }
+
+        /// <summary>
+        /// Initializes the global service locator.
+        /// </summary>
+        internal static void Initialize(Lazy<IServiceLocator> globalLocator)
+        {
+            ServiceLocator.globalLocator = globalLocator;
+        }
+
+        private class NullLocator : IServiceLocator
+        {
+            public IEnumerable<TService> GetAllInstances<TService>()
+            {
+                return Enumerable.Empty<TService>();
+            }
+
+            public IEnumerable<object> GetAllInstances(Type serviceType)
+            {
+                return Enumerable.Empty<object>();
+            }
+
+            public TService GetInstance<TService>(string key)
+            {
+                return default(TService);
+            }
+
+            public TService GetInstance<TService>()
+            {
+                return default(TService);
+            }
+
+            public object GetInstance(Type serviceType, string key)
+            {
+                return null;
+            }
+
+            public object GetInstance(Type serviceType)
+            {
+                return null;
+            }
+
+            public object GetService(Type serviceType)
+            {
+                return null;
+            }
+        }
     }
 }

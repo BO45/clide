@@ -20,17 +20,10 @@ namespace Clide
     using System.Windows;
     
     /// <summary>
-	/// Represents a dialog window. This interface only needs to be added to the 
-	/// implementing interfaces for any <see cref="Window"/> and no additional code is 
-	/// required. All members are already implemented by the base class <see cref="Window"/>.
+	/// Represents a dialog window.
 	/// </summary>
 	public interface IDialogWindow
 	{
-		/// <summary>
-		/// Gets or sets the data context, typically a view model.
-		/// </summary>
-		object DataContext { get; set; }
-
 		/// <summary>
 		/// Gets or sets the dialog result.
 		/// </summary>

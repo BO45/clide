@@ -20,8 +20,7 @@ namespace Clide
     using System.ComponentModel;
 
     /// <summary>
-	/// Interface used by settings that leverage the <see cref="OptionsPage{TControl, TSettings}"/> 
-	/// base class for Tools|Options extensibility, and which are annotated with the <see cref="SettingsAttribute"/>.
+	/// Interface used by settings objects, which are annotated with the <see cref="SettingsAttribute"/>.
 	/// </summary>
 	public interface ISettings : IEditableObject
 	{

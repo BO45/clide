@@ -7,7 +7,7 @@
     <ProjectGuid>{15BB76C4-C6D8-4D51-8276-FB7A94AAE377}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Clide.Common</RootNamespace>
+    <RootNamespace>Clide</RootNamespace>
     <AssemblyName>Clide.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,15 +44,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Src\GlobalAssemblyInfo.cs">
+    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.1.5\lib\net40\Autofac.dll</HintPath>
+      <IlMerge>true</IlMerge>
+    </Reference>
+    <Reference Include="Autofac.Extras.Attributed, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.Extras.Attributed.3.1.0\lib\net40\Autofac.Extras.Attributed.dll</HintPath>
+      <IlMerge>true</IlMerge>
+    </Reference>
+    <Reference Include="Autofac.Extras.CommonServiceLocator">
+      <HintPath>..\..\packages\Autofac.Extras.CommonServiceLocator.3.0.1\lib\net40\Autofac.Extras.CommonServiceLocator.dll</HintPath>
+      <IlMerge>true</IlMerge>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mef">
+      <HintPath>..\..\packages\Autofac.Mef.3.0.2\lib\net40\Autofac.Integration.Mef.dll</HintPath>
+      <IlMerge>true</IlMerge>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Composition\CompositionExtensions.cs" />
+    <Compile Include="Composition\FallbackServiceLocator.cs" />
+    <Compile Include="Composition\ServiceProviderSource.cs" />
+    <Compile Include="netfx\System\AmbientSingleton.cs" />
+    <Compile Include="netfx\System\Collections\Generic\IEnumerable\TraverseKind.cs" />
+    <Compile Include="netfx\System\Collections\Generic\IEnumerable\Traverser.cs" />
+    <Compile Include="netfx\System\Guard.cs" />
+    <Compile Include="netfx\System\TypeInheritance.cs" />
+    <Compile Include="netfx\System\TypeInheritanceExtension.cs" />
+    <Compile Include="Patterns\AdapterAttribute.cs" />
+    <Compile Include="Patterns\AdapterService.cs" />
+    <Compile Include="Patterns\Adapter\AdapterService.cs" />
+    <Compile Include="Patterns\Adapter\AdaptersInitializer.cs" />
+    <Compile Include="Patterns\Adapter\Constants.cs" />
+    <Compile Include="Patterns\Adapter\IAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Common\ClariusLabs.licenseheader">
+    <None Include="..\..\Common\ClariusLabs.licenseheader">
       <Link>ClariusLabs.licenseheader</Link>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

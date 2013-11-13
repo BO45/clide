@@ -21,7 +21,6 @@ namespace Clide
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.Composition;
-    using Clide.Composition;
 
     /// <summary>
     /// Attribute that designates a given class as a 

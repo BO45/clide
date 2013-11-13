@@ -21,7 +21,6 @@ namespace Clide.Commands
     using System.ComponentModel.Composition;
     using Clide.Commands;
     using System.ComponentModel;
-    using Clide.Composition;
 
     /// <summary>
     /// Attribute that must be placed on command interceptors in order to 

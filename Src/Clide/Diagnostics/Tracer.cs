@@ -45,6 +45,14 @@ namespace Clide.Diagnostics
         /// </summary>
         public static ITracerManager Manager { get { return manager; } }
 
+        /// <summary>
+        /// Gets the tracer name for the given type.
+        /// </summary>
+        public static string NameFor<T>()
+        {
+            return NameFor(typeof(T));
+        }
+
         // Implement missing members that we added.
         partial class DefaultManager : ITracerManager
         {

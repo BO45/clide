@@ -25,17 +25,17 @@ namespace Clide
         /// <summary>
         /// Shows an information dialog.
         /// </summary>
-        public static void ShowInformation(this IMessageBoxService service, string message)
+        public static void ShowInformation(this IMessageBoxService service, string title, string message)
         {
-            service.Show(message, icon: System.Windows.MessageBoxImage.Information);
+            service.Show(title, message, icon: MessageBoxImage.Information);
         }
 
         /// <summary>
         /// Shows a warning dialog.
         /// </summary>
-        public static void ShowWarning(this IMessageBoxService service, string message)
+        public static void ShowWarning(this IMessageBoxService service, string title, string message)
         {
-            service.Show(message, icon: System.Windows.MessageBoxImage.Warning);
+            service.Show(title, message, icon: MessageBoxImage.Warning);
         }
     }
 }

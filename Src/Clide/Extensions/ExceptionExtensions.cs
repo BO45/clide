@@ -24,11 +24,27 @@ namespace System
         static readonly FieldInfo remoteStackTraceString = typeof(Exception).GetField(
             "_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
 
+        // Same ones as VS ErrorHandler class.
+        static readonly HashSet<Type> criticalExceptions = new HashSet<Type>
+        {
+            typeof(OutOfMemoryException),
+            typeof(StackOverflowException),
+            typeof(AccessViolationException),
+            typeof(AppDomainUnloadedException),
+            typeof(BadImageFormatException),
+            typeof(DivideByZeroException),
+        };
+
         public static void RethrowPreserveStack(this Exception exception)
         {
             remoteStackTraceString.SetValue(exception, exception.StackTrace);
 
             throw exception;
+        }
+
+        public static bool IsCriticalException(this Exception exception)
+        {
+            return criticalExceptions.Contains(exception.GetType());
         }
     }
 }

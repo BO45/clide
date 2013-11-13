@@ -28,16 +28,16 @@ namespace Clide
         /// Shows a message to the user.
         /// </summary>
         /// <returns><see langword="true"/> if the user clicked on Yes/OK.</returns>
-		bool? Show(string message, string title = MessageBoxService.DefaultTitle, MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.OK);
+        bool? Show(string title, string message, MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.OK);
 
         /// <summary>
         /// Prompts the user for a response.
         /// </summary>
-        MessageBoxResult Prompt(string message, string title = MessageBoxService.DefaultTitle, MessageBoxButton button = MessageBoxButton.OKCancel, MessageBoxImage icon = MessageBoxImage.Question, MessageBoxResult defaultResult = MessageBoxResult.OK);
+        MessageBoxResult Prompt(string title, string message, MessageBoxButton button = MessageBoxButton.OKCancel, MessageBoxImage icon = MessageBoxImage.Question, MessageBoxResult defaultResult = MessageBoxResult.OK);
 
         /// <summary>
-        /// Gets a string inputs from the user.
+        /// Gets a string from the user.
         /// </summary>
-        string InputBox(string message, string title = MessageBoxService.DefaultTitle);
+        string InputBox(string title, string message);
     }
 }
