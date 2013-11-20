@@ -53,7 +53,7 @@ namespace Clide.Solution
             this.nodeFactory = nodeFactory;
             this.explorerNodeFactory = explorerNodeFactory;
             this.events = solutionEvents;
-            this.selection = new Lazy<IVsMonitorSelection>(() => locator.GetService<SVsShellMonitorSelection, IVsMonitorSelection>());
+            this.selection = new Lazy<IVsMonitorSelection>(() => GlobalServiceProvider.Instance.GetService<SVsShellMonitorSelection, IVsMonitorSelection>());
         }
 
         public Lazy<EnvDTE.Solution> Solution { get; private set; }

@@ -361,6 +361,7 @@
     <NuSpec Include="Clide.nuspec">
       <SubType>Designer</SubType>
     </NuSpec>
+    <None Include="App.config" />
     <None Include="ilmerge.exclude" />
     <None Include="netfx\System\Reflection\Reflect.Overloads.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -18,5 +18,15 @@ namespace Clide
             Assert.NotNull(devEnv.ServiceLocator.GetInstance<DTE>());
             Assert.NotNull(devEnv.ServiceLocator.GetInstance<IVsShell>());
 		}
+
+        [HostType("VS IDE")]
+		[TestMethod]
+		public void WhenGettingSelectionService_ThenSucceeds()
+		{
+            var devEnv = DevEnv.Get(GlobalServiceProvider.Instance);
+
+            Assert.NotNull(devEnv.ServiceLocator.GetInstance<SVsShellMonitorSelection>());
+            Assert.NotNull(devEnv.ServiceLocator.GetService(typeof(SVsShellMonitorSelection)));
+        }
 	}
 }

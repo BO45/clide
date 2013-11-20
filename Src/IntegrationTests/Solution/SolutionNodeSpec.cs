@@ -372,7 +372,6 @@ namespace Clide.Solution
             [TestMethod]
             public void WhenMultipleItemsInDifferentHierarchiesAreSelected_ThenActiveProjectIsNull()
             {
-                System.Diagnostics.Debugger.Launch();
                 solution.FindProjects().First()
                     .Traverse().OfType<IItemNode>()
                     .Where(i => i.DisplayName.EndsWith(".cs"))

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-    <Target Name="BeforeBuild">
+    <Target Name="EnsureVisualStudioVersion" BeforeTargets="BeforeBuild">
         <Error Condition="'$(VisualStudioVersion)' == ''"
                ContinueOnError="false"
                Text="Please provide the VisualStudioVersion property as a parameter to MSBuild to specify the target version of VS to build the extension for (i.e. '10.0' or '11.0')." />
@@ -9,6 +9,14 @@
                  Importance="high" />
     </Target>
 
+    <Target Name="EnsureClideBuiltForDev10"
+            BeforeTargets="BeforeBuild"
+            Condition="'$(VisualStudioVersion)' == '10.0' And '' != ''">
+        <Error Condition="!Exists('$(BuildRoot)Src\Clide\nuget\lib\net40\Clide.dll')"
+               ContinueOnError="false"
+               Text="Before building on Visual Studio 2010, make sure you have built the solution with Visual Studio 2012 or greater using the same configuration." />
+    </Target>
+    
     <!-- Merges references that are CopyLocal and have an <IlMerge>true</IlMerge> item metadata -->
     <Target Name="IlMerge" BeforeTargets="AfterBuild" Condition="$(NuGet) == 'true'">
         <ItemGroup>
@@ -35,14 +43,14 @@
         <Delete Files="@(AssembliesToClean)" ContinueOnError="false" TreatErrorsAsWarnings="true" />
     </Target>
 
-    <Target Name="CleanLib" AfterTargets="Clean">
+    <!--<Target Name="CleanLib" AfterTargets="Clean">
         <ItemGroup>
             <ItemsToClean Include="$(OutputPath)**\*.*" />
         </ItemGroup>
-        <!--<Exec Command="rmdir /s &quot;$(OutputPath)&quot;" ContinueOnError="false" />-->
-        <Delete Files="@(ItemsToClean)" ContinueOnError="false" />
-        <RemoveDir Directories="$(OutputPath)" Condition="false" />
-    </Target>
+        --><!--<Exec Command="rmdir /s &quot;$(OutputPath)&quot;" ContinueOnError="false" />--><!--
+        <Delete Files="@(ItemsToClean)" ContinueOnError="true" />
+        <RemoveDir Directories="$(OutputPath)" Condition="true" />
+    </Target>-->
 
     <Target Name="BuildPackage" AfterTargets="AfterBuild" Condition="$(NuGet) == 'true'">
         <Copy SourceFiles="@(NuSpec)" DestinationFiles="@(NuSpec->'nuget\%(Filename)%(Extension)')" SkipUnchangedFiles="true" ContinueOnError="false">

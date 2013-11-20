@@ -12,7 +12,7 @@
     <ItemGroup>
         <!-- AdditionalProperties are passed to the build task below automatically -->
         <ProjectToBuild Include="Clide\Clide.csproj">
-            <AdditionalProperties>VisualStudioVersion=10.0;</AdditionalProperties>
+            <AdditionalProperties>VisualStudioVersion=11.0;</AdditionalProperties>
         </ProjectToBuild>
         <!--
         <ProjectToBuild Include="Clide.VisualStudio\Clide.VisualStudio.csproj">

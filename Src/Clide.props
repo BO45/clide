@@ -34,6 +34,7 @@
     
     <PropertyGroup Condition="'$(VisualStudioVersion)' == '10.0'">
         <DefineConstants>$(DefineConstants);Vs10</DefineConstants>
+        <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(VisualStudioVersion)' == '11.0'">

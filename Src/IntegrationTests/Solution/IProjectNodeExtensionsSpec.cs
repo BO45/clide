@@ -89,7 +89,7 @@ namespace Clide.Solution
 
         [HostType("VS IDE")]
         [TestMethod]
-        public void WhenBuildingProject_ThenCanWaitForSuccees()
+        public void WhenBuildingProject_ThenCanWaitForSuccess()
         {
             base.OpenSolution("SampleSolution\\SampleSolution.sln");
 
